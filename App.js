@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button, TextInput, ScrollV
 import MaterialIcon from 'react-native-vector-icons/Entypo'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {React} from 'react';
+import {React, useState} from 'react';
 
 const win = Dimensions.get('window')
 
 const navigation = createNativeStackNavigator();
+
 
 const PlayScreen = ({ navigation }) => {
   const playPress = () =>{
@@ -30,13 +31,17 @@ const PlayScreen = ({ navigation }) => {
   )
 }
 
-let [user, pass] = ["", ""];
+
   let pw = require("./password.json")
 
 const Login = ({ navigation }) => {
+  let [user, setUser] = useState("");
+  let [pass, setPass] = useState("");
+
   const loginRequest= (user, pass) => {
+    console.log("attempted with username: " + user + " and password " + pass)
     if (user = pw.user && pass == pw.pass){
-      console.log("succes");
+      console.log("success");
       
 
       navigation.navigate('PlayScreen')
@@ -53,8 +58,8 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       
       <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
-        <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>user=newText}></TextInput>
-        <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>pass=newText}></TextInput>
+        <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>setUser(newText)}></TextInput>
+        <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>setPass(newText)}></TextInput>
         <MaterialIcon name='login' style={styles.loginLabel} color={"green"} onPress={() => {loginRequest(user,pass); }}  ></MaterialIcon>
       </ScrollView>
 
