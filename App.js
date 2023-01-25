@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Image, Button, TextInput, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, Button, TextInput, ScrollView, Dimensions, Pressable } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/Entypo'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,8 +9,8 @@ const win = Dimensions.get('window')
 
 const navigation = createNativeStackNavigator();
 
-function PlayScreen({ navigation }){
-  const playPress=(thing)=>{
+const PlayScreen = ({ navigation }) => {
+  const playPress = () =>{
     console.log("Starting Chain Reaction")
     
   }
@@ -19,7 +19,10 @@ function PlayScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
       <View style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
-        <Image style={styles.playImage} onPress={()=>{playPress()}} source={require('./components/images/green-play-button-png.png')}></Image>
+        <Pressable  onPress={playPress} >
+          <Image style={styles.playImage}source={require('./components/images/green-play-button-png.png')}></Image>
+        </Pressable>
+        
       </View>
       
     </SafeAreaView>
@@ -126,9 +129,9 @@ const styles = StyleSheet.create({
   playImage: {
     width:win.width*.75,
     height:win.width*.75,
-    
     alignSelf:'center',
     justifySelf:'center',
 
   }
+
 });
