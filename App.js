@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button, TextInput, ScrollV
 import MaterialIcon from 'react-native-vector-icons/Entypo'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {React} from 'react';
+import {React, useState} from 'react';
+import BroadcastScreen from './screens/BroadcastScreen';
+
+console.log(BroadcastScreen)
 
 const win = Dimensions.get('window')
 
 const navigation = createNativeStackNavigator();
 
+/*
 const PlayScreen = ({ navigation }) => {
   const playPress = () =>{
     console.log("Starting Chain Reaction")
@@ -19,6 +23,10 @@ const PlayScreen = ({ navigation }) => {
 
     <SafeAreaView style={styles.container}>
       <View style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
+        
+        <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
+
+
         <Pressable  onPress={playPress} >
           <Image style={styles.playImage}source={require('./components/images/green-play-button-png.png')}></Image>
         </Pressable>
@@ -29,22 +37,26 @@ const PlayScreen = ({ navigation }) => {
 
   )
 }
+*/
 
-let [user, pass] = ["", ""];
   let pw = require("./password.json")
 
 const Login = ({ navigation }) => {
-  const loginRequest= (user, pass) => {
+  let [user, setUser] = useState("");
+  let [pass, setPass] = useState("")
+
+  const loginRequest= () => {
+    console.log("attempted with username: " + user + " and password " + pass)
     if (user = pw.user && pass == pw.pass){
-      console.log("succes");
+      console.log("success");
       
 
-      navigation.navigate('PlayScreen')
+      navigation.navigate('BroadcastScreen')
       
       
       navigation.reset({
         index: 0,
-        routes: [{ name: 'PlayScreen' }],
+        routes: [{ name: 'BroadcastScreen' }],
       });
     }
   }
@@ -53,9 +65,9 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       
       <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
-        <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>user=newText}></TextInput>
-        <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>pass=newText}></TextInput>
-        <MaterialIcon name='login' style={styles.loginLabel} color={"green"} onPress={() => {loginRequest(user,pass); }}  ></MaterialIcon>
+      <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>setUser(newText)}></TextInput>
+        <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>setPass(newText)}></TextInput>
+        <MaterialIcon name='login' style={styles.loginLabel} color={"green"} onPress={() => {loginRequest(); }}  ></MaterialIcon>
       </ScrollView>
 
       </SafeAreaView>
@@ -77,9 +89,10 @@ export default function App() {
         <navigation.Screen name='login' component={Login}>
         </navigation.Screen>
 
-        <navigation.Screen name='PlayScreen' component={PlayScreen} ></navigation.Screen>
+        <navigation.Screen name='BroadcastScreen' component={BroadcastScreen} ></navigation.Screen>
       </navigation.Navigator>
     </NavigationContainer>
+    
   )
 }
 
@@ -132,6 +145,10 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     justifySelf:'center',
 
-  }
+  },
 
+  styledText: {
+    color: "#FFF",
+    
+  }
 });
