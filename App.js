@@ -12,34 +12,6 @@ const win = Dimensions.get('window')
 
 const navigation = createNativeStackNavigator();
 
-
-/*
-const PlayScreen = ({ navigation }) => {
-  const playPress = () =>{
-    console.log("Starting Chain Reaction")
-    
-  }
-
-  return(
-
-    <SafeAreaView style={styles.container}>
-      <View style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
-        
-        <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
-
-
-        <Pressable  onPress={playPress} >
-          <Image style={styles.playImage}source={require('./components/images/green-play-button-png.png')}></Image>
-        </Pressable>
-        
-      </View>
-      
-    </SafeAreaView>
-
-  )
-}
-*/
-
   let pw = require("./password.json")
 
 const Login = ({ navigation }) => {
