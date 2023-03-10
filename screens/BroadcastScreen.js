@@ -2,6 +2,7 @@ import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAr
 import {React, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+let count = 0; 
 
 const navigation = createNativeStackNavigator();
 
@@ -14,11 +15,32 @@ const BroadcastScreen= ({ navigation }) =>{
         
     }
 
-    const broadcastPress= () =>{
+    const broadcastPress= async () =>{
+        count += 1;
         if (broadText.trim() != "" && broadText.trim().length <= 30){
-            console.log("Sending message: " + broadText)
+            console.log("Sending message: " + broadText + " count: " + count);
+
+            /*
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ broadcast: "Jake" })
+            };
+
+            const response = await fetch("http://127.0.0.1:5000/", requestOptions);
+            console.log(await response.json())
+            */
+
+
+            const response = await fetch("https://reqres.in/api/posts", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ broadcast: "Jake" })
+            })
+            const json = await response.json();
+            console.log(json)
         }else if (broadText.trim().length > 30){
-            alert("Please keep broadcast below 30 characters");
+            alert("Please keep broadcast below or equal to 30 characters");
             
         }else{
             alert("Please type something to send as a broadcast.");
