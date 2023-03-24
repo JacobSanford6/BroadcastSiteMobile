@@ -1,4 +1,8 @@
-import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, useWindowDimensions } from 'react-native';
+//TODO: Fix empty textbox alert from appearing when textbox is not empty
+//TODO: Give user input on whether or not their broadcast was sent
+//TODO: Remove play button and/or create a spreadsheet parser
+
+import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable } from 'react-native';
 import {React, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -20,25 +24,15 @@ const BroadcastScreen= ({ navigation }) =>{
         if (broadText.trim() != "" && broadText.trim().length <= 30){
             console.log("Sending message: " + broadText + " count: " + count);
 
-            /*
-            const requestOptions = {
+            const response = await fetch("http://192.168.1.118:5000", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ broadcast: "Jake" })
-            };
-
-            const response = await fetch("http://127.0.0.1:5000/", requestOptions);
-            console.log(await response.json())
-            */
-
-
-            const response = await fetch("https://reqres.in/api/posts", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ broadcast: "Jake" })
+                body: JSON.stringify({ broadcast: broadText })
+            }).catch(err=>{
+                console.error(err);
             })
-            const json = await response.json();
-            console.log(json)
+            
+            
         }else if (broadText.trim().length > 30){
             alert("Please keep broadcast below or equal to 30 characters");
             
