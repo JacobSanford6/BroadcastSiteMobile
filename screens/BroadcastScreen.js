@@ -1,21 +1,33 @@
-//TODO: Give user input on whether or not their broadcast was sent
 //TODO: Remove play button and/or create a spreadsheet parser
 
 import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
 import {React, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-let count = 0; 
+import * as ImagePicker from 'expo-image-picker';
 
 const navigation = createNativeStackNavigator();
 
 const BroadcastScreen= ({ navigation }) =>{
     let [broadText, setBroadText] = useState("")
+    let [broadImage, setImage] = useState(null);
+
+    const pickImage = async () => {
+        await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            selectionLimit: 1,
+        })
+        .then(res=>{
+            if (res.canceled){
+                Alert.alert("No image selected")
+            }else{
+                setImage(res);
+            }
+        })
+        
+    }
 
     const broadcastPress= async () =>{
-        count += 1;
         if (broadText.trim() != "" && broadText.trim().length <= 30){
-            console.log("Sending message: " + broadText + " count: " + count);
 
             const response = await fetch("http://167.248.46.73:5000", {
                 method: 'POST',
@@ -28,8 +40,7 @@ const BroadcastScreen= ({ navigation }) =>{
             .catch(err=>{
                 console.error(err);
             })
-            
-            
+        
         }else if (broadText.trim().length > 30){
             alert("Please keep broadcast below or equal to 30 characters");
             
@@ -51,7 +62,9 @@ const BroadcastScreen= ({ navigation }) =>{
                 <Text style={styles.button}>Send Broadcast</Text>
             </Pressable>
 
-            <Pressable>
+            <Text style={styles.imageText}>{ broadImage ? broadImage.assets[0].uri.split("/")[broadImage.assets[0].uri.split("/").length-1] : null }</Text>
+
+            <Pressable onPress={pickImage}>
                 <Text style={styles.button}>Upload Image</Text>
             </Pressable>
             
@@ -125,6 +138,10 @@ const styles = StyleSheet.create({
         borderWidth:1,
         margin: 10,
         padding: 2,
+    },
+
+    imageText: {
+        height: 20,
     }
 });
 
