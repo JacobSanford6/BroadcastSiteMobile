@@ -1,8 +1,7 @@
-//TODO: Fix empty textbox alert from appearing when textbox is not empty
 //TODO: Give user input on whether or not their broadcast was sent
 //TODO: Remove play button and/or create a spreadsheet parser
 
-import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable } from 'react-native';
+import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
 import {React, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -11,24 +10,22 @@ let count = 0;
 const navigation = createNativeStackNavigator();
 
 const BroadcastScreen= ({ navigation }) =>{
-    let broadText = "";
-
-
-   const playPress = () =>{
-        console.log("Starting Chain Reaction")
-        
-    }
+    let [broadText, setBroadText] = useState("")
 
     const broadcastPress= async () =>{
         count += 1;
         if (broadText.trim() != "" && broadText.trim().length <= 30){
             console.log("Sending message: " + broadText + " count: " + count);
 
-            const response = await fetch("http://192.168.1.118:5000", {
+            const response = await fetch("http://167.248.46.73:5000", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ broadcast: broadText })
-            }).catch(err=>{
+            })
+            .then(res=>{
+                Alert.alert("Success","Message delivered successfully!")
+            })
+            .catch(err=>{
                 console.error(err);
             })
             
@@ -49,15 +46,15 @@ const BroadcastScreen= ({ navigation }) =>{
         <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
             
             <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
-            <TextInput placeholder='Broadcast Message' placeholderTextColor="#ff8c00b4" onChangeText={nt=>broadText=nt} style={styles.signInInput}></TextInput>
+            <TextInput placeholder='Broadcast Message' placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
             <Pressable onPress={broadcastPress}>
                 <Text style={styles.button}>Send Broadcast</Text>
             </Pressable>
 
-
-            <Pressable  onPress={playPress} >
-                <Image style={styles.playImage}source={require('../components/images/green-play-button-png.png')}></Image>
+            <Pressable>
+                <Text style={styles.button}>Upload Image</Text>
             </Pressable>
+            
             
         </ScrollView>
         
@@ -126,6 +123,8 @@ const styles = StyleSheet.create({
         borderColor:"white",
         color:'darkorange',
         borderWidth:1,
+        margin: 10,
+        padding: 2,
     }
 });
 
