@@ -1,4 +1,6 @@
-//TODO: Remove play button and/or create a spreadsheet parser
+//TODO: Add a remove button for the image
+//TODO: Create POST to send image to server
+//TODO: Consider adding a screen to view schedules
 
 import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
 import {React, useState} from 'react';
