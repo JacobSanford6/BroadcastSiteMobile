@@ -2,10 +2,11 @@
 //TODO: Create POST to send image to server
 //TODO: Consider adding a screen to view schedules
 
-import { ScrollView, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
+import { ScrollView, Platform, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
 import {React, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as ImagePicker from 'expo-image-picker';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const navigation = createNativeStackNavigator();
 
@@ -23,7 +24,36 @@ const BroadcastScreen= ({ navigation }) =>{
                 Alert.alert("No image selected")
             }else{
                 setImage(res);
+                handleImageChanged();
             }
+        })
+        
+    }
+
+    const handleImageChanged = async () =>{
+        let httpSend=new FormData();
+        //console.warn(broadImage.uri)
+        
+        //httpSend.append('photo', {
+        //    type: broadImage.type,
+        //    uri: Platform.OS === 'ios' ? broadImage.assets.uri.replace('file://', '') : broadImage.uri,
+        //});
+       
+        console.log(broadImage.assets[0].type)
+        httpSend.append('broadcastImage', {
+            name: broadImage.assets[0].fileName,
+            type: "image/jpg",
+            uri: Platform.OS === 'ios' ? broadImage.assets[0].uri.replace('file://', '') : broadImage.assets[0].uri,
+        });
+        
+        
+
+        await fetch("http://167.248.46.73:5000", {
+            method: 'POST',
+            headers: { "Content-Type": "multipart/form-data" },
+            body: httpSend
+        }).catch(err=>{
+            console.error(err)
         })
         
     }
@@ -31,7 +61,7 @@ const BroadcastScreen= ({ navigation }) =>{
     const broadcastPress= async () =>{
         if (broadText.trim() != "" && broadText.trim().length <= 30){
 
-            const response = await fetch("http://167.248.46.73:5000", {
+            await fetch("http://167.248.46.73:5000", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ broadcast: broadText })
@@ -64,10 +94,34 @@ const BroadcastScreen= ({ navigation }) =>{
                 <Text style={styles.button}>Send Broadcast</Text>
             </Pressable>
 
-            <Text style={styles.imageText}>{ broadImage ? broadImage.assets[0].uri.split("/")[broadImage.assets[0].uri.split("/").length-1] : null }</Text>
+            
+            
+            
+            {
+            broadImage ? 
+            
+            <View>
+                <Text style={styles.imageText}>
+                    { broadImage ? broadImage.assets[0].uri.split("/")[broadImage.assets[0].uri.split("/").length-1] : null }
+                </Text>
+                
+                <Pressable onPress={() => setImage(null)} style={styles.closeHolder}> 
+                    <Ionicons name='close-circle-outline' color={"red"} size={20}></Ionicons>
+                </Pressable>
+                
+                
+            </View>
+            
+
+
+            :
+            null
+            }
+            
+            
 
             <Pressable onPress={pickImage}>
-                <Text style={styles.button}>Upload Image</Text>
+                <Text style={styles.button} >Upload Image</Text>
             </Pressable>
             
             
@@ -144,6 +198,14 @@ const styles = StyleSheet.create({
 
     imageText: {
         height: 20,
+        
+        textAlign: 'center',
+        flex:4
+    },
+
+    
+    closeHolder:{
+        alignSelf: 'center'
     }
 });
 
