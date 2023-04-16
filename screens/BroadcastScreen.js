@@ -1,12 +1,11 @@
-//TODO: Add a remove button for the image
-//TODO: Create POST to send image to server
 //TODO: Consider adding a screen to view schedules
 
-import { ScrollView, Platform, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from 'react-native';
-import {React, useState} from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as ImagePicker from 'expo-image-picker';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { ScrollView, Platform, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from "react-native";
+import {React, useState} from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as ImagePicker from "expo-image-picker";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 const navigation = createNativeStackNavigator();
 
@@ -24,46 +23,40 @@ const BroadcastScreen= ({ navigation }) =>{
                 Alert.alert("No image selected")
             }else{
                 setImage(res);
-                handleImageChanged();
             }
         })
         
     }
 
-    const handleImageChanged = async () =>{
-        let httpSend=new FormData();
-        //console.warn(broadImage.uri)
-        
-        //httpSend.append('photo', {
-        //    type: broadImage.type,
-        //    uri: Platform.OS === 'ios' ? broadImage.assets.uri.replace('file://', '') : broadImage.uri,
-        //});
-       
-        console.log(broadImage.assets[0].type)
-        httpSend.append('broadcastImage', {
-            name: broadImage.assets[0].fileName,
-            type: "image/jpg",
-            uri: Platform.OS === 'ios' ? broadImage.assets[0].uri.replace('file://', '') : broadImage.assets[0].uri,
-        });
-        
-        
+    const sendImageBroadcastAsync = async () =>{
+        if (broadImage){
 
-        await fetch("http://167.248.46.73:5000", {
-            method: 'POST',
-            headers: { "Content-Type": "multipart/form-data" },
-            body: httpSend
-        }).catch(err=>{
-            console.error(err)
-        })
-        
+            const formData = new FormData();
+
+            const photo = {
+                uri: broadImage.assets[0].uri,
+                name:  broadImage.assets[0].uri.substring(broadImage.assets[0].uri.length-4,3),
+                type: "image/jpeg"
+            };
+
+            const now = new Date()
+            const timeNumber = parseInt ( (now.getHours()+now.getMinutes()).toString() + now.getMinutes().toString() ) 
+
+            formData.append("secret-key", timeNumber)
+            formData.append("broadcastImage", photo);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://167.248.46.73:5000");
+            xhr.send(formData);
+        }
     }
 
-    const broadcastPress= async () =>{
+    const sendMessageBroadcastAsync= async () =>{
         if (broadText.trim() != "" && broadText.trim().length <= 30){
 
             await fetch("http://167.248.46.73:5000", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ broadcast: broadText })
             })
             .then(res=>{
@@ -83,19 +76,14 @@ const BroadcastScreen= ({ navigation }) =>{
     }
     
     return(
-        
-
         <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
+        <ScrollView style={styles.fitIn} justifyContent="center" scrollEnabled={false}>
             
             <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
-            <TextInput placeholder='Broadcast Message' placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
-            <Pressable onPress={broadcastPress}>
+            <TextInput placeholder="Broadcast Message" placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
+            <Pressable onPress={sendMessageBroadcastAsync}>
                 <Text style={styles.button}>Send Broadcast</Text>
             </Pressable>
-
-            
-            
             
             {
             broadImage ? 
@@ -106,48 +94,39 @@ const BroadcastScreen= ({ navigation }) =>{
                 </Text>
                 
                 <Pressable onPress={() => setImage(null)} style={styles.closeHolder}> 
-                    <Ionicons name='close-circle-outline' color={"red"} size={20}></Ionicons>
+                    <Ionicons name="close-circle-outline" color={"red"} size={20}></Ionicons>
                 </Pressable>
                 
                 
-            </View>
-            
-
-
-            :
-            null
+            </View>:null
             }
             
-            
-
             <Pressable onPress={pickImage}>
                 <Text style={styles.button} >Upload Image</Text>
             </Pressable>
             
-            
+            <Pressable onPress={sendImageBroadcastAsync}>
+                <Text style={styles.button} >Send Image</Text>
+            </Pressable>
+
         </ScrollView>
-        
         </SafeAreaView>
-
-
     )
 }
 
 const sWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-    
-
     container: {
         flex: 1,
-        backgroundColor: '#444444',
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: "#444444",
+        alignItems: "center",
+        justifyContent: "center"
     },
 
     fitIn: {
-        height: '100%',
-        width: '100%',
+        height: "100%",
+        width: "100%",
         padding: 0,
         margin: 0,
         
@@ -162,7 +141,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         margin: 15,
         width: "75%",
-        alignSelf: 'center',
+        alignSelf: "center",
         borderColor: "white",
         color: "darkorange",
         paddingRight: 15,
@@ -173,24 +152,24 @@ const styles = StyleSheet.create({
     playImage: {
         width:sWidth*.75,
         height:sWidth*.75,
-        alignSelf:'center',
-        justifySelf:'center',
+        alignSelf:"center",
+        justifySelf:"center",
 
     },
 
     styledText: {
         color: "#FFF",
-        alignSelf: 'center',
+        alignSelf: "center",
     },
 
     button: {
         fontSize: 25,
-        backgroundColor: '#FFFFFF33',
+        backgroundColor: "#FFFFFF33",
         width:sWidth*.75,
-        alignSelf:'center',
-        textAlign:'center',
+        alignSelf:"center",
+        textAlign:"center",
         borderColor:"white",
-        color:'darkorange',
+        color:"darkorange",
         borderWidth:1,
         margin: 10,
         padding: 2,
@@ -199,16 +178,14 @@ const styles = StyleSheet.create({
     imageText: {
         height: 20,
         
-        textAlign: 'center',
+        textAlign: "center",
         flex:4
     },
 
     
     closeHolder:{
-        alignSelf: 'center'
+        alignSelf: "center"
     }
 });
-
-
 
 export default BroadcastScreen;
