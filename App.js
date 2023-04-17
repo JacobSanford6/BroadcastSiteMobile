@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {React, useState} from 'react';
 import BroadcastScreen from './screens/BroadcastScreen';
+import SpreadSheetScreen from './screens/SpreadSheetScreen'
 
 console.log(BroadcastScreen)
 
@@ -63,6 +64,7 @@ export default function App() {
         </navigation.Screen>
 
         <navigation.Screen name='BroadcastScreen' component={BroadcastScreen} ></navigation.Screen>
+        <navigation.Screen name='SpreadSheetScreen' component={SpreadSheetScreen}></navigation.Screen>
       </navigation.Navigator>
     </NavigationContainer>
     
