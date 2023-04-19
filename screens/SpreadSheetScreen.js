@@ -15,14 +15,28 @@ const navigation = createNativeStackNavigator();
 const SpreadSheetScreen= ({ navigation }) =>{
     const [isFocus, setIsFocus] = useState(false);
     const [dropValue, setDropValue] = useState(null);
-    const [data, setData] = useState([]);
+    let [data, setData] = useState([]);
+
     const [jsonData, setJson] = useState(null)
 
-    useLayoutEffect(() => {
+    useLayoutEffect(function(){
         obtainFileAsync();
-    }, [0]);
+    },[0]);
+
+    const compareTimes = (col) =>{
+        let colVals = []
+        let closers = []
+        for (let eName of jsonData){
+            if (jsonData[eName][col].contains("CL")){
+                closers.push(jsonData[eName][col])
+            }
+            colVals.push(jsonData[eName][col])
+        }
+    }
 
     const obtainFileAsync = async () =>{
+        let [data, setData] = useState([]);
+        data = [];
         await fetch("http://167.248.46.73:5000/xlsxFile")
         .then(response => {
             return response.json()
@@ -38,11 +52,11 @@ const SpreadSheetScreen= ({ navigation }) =>{
                     
                 }
             }
+            
             setJson(jsonRes);
             
         })
 
-        
     }
 
     
@@ -71,6 +85,7 @@ const SpreadSheetScreen= ({ navigation }) =>{
           onBlur={() => setIsFocus(false)}
           onChange={item => {
             setDropValue(item.value);
+            compareTimes(item.value)
             setIsFocus(false);
           }}
             ></ElementDropDown.Dropdown>

@@ -53,10 +53,10 @@ const BroadcastScreen= ({ navigation }) =>{
             xhr.open("POST", "http://167.248.46.73:5000");
             xhr.send(formData);
 
-            if (xhr.status == 200){
-                console.log("recieved")
-            }else{
-                console.warn("error")
+            xhr.onload = () => {
+                if (xhr.status == 200){
+                    Alert.alert("Success", "Image sent successfully!")
+                }
             }
         }
     }
@@ -73,7 +73,7 @@ const BroadcastScreen= ({ navigation }) =>{
                 Alert.alert("Success","Message delivered successfully!")
             })
             .catch(err=>{
-                console.error(err);
+                console.log(err);
             })
         
         }else if (broadText.trim().length > 30){
