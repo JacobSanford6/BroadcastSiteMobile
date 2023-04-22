@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {React, useState} from 'react';
 import BroadcastScreen from './screens/BroadcastScreen';
-import SpreadSheetScreen from './screens/SpreadSheetScreen'
 
 console.log(BroadcastScreen)
 
@@ -37,40 +36,25 @@ const Login = ({ navigation }) => {
   
   return(
     <SafeAreaView style={styles.container}>
-      
       <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
       <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>setUser(newText)}></TextInput>
         <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>setPass(newText)}></TextInput>
         <MaterialIcon name='login' style={styles.loginLabel} color={"green"} onPress={() => {loginRequest(); }}  ></MaterialIcon>
       </ScrollView>
-
-      </SafeAreaView>
+    </SafeAreaView>
   )
 }
 
 export default function App() {
-  
-  
-
-  
   return (
-    
     <NavigationContainer>
-      
-      <navigation.Navigator screenOptions={{
-    headerShown: false
-  }}>
-        <navigation.Screen name='login' component={Login}>
-        </navigation.Screen>
-
+      <navigation.Navigator screenOptions={{headerShown: false}}>
+        <navigation.Screen name='login' component={Login}></navigation.Screen>
         <navigation.Screen name='BroadcastScreen' component={BroadcastScreen} ></navigation.Screen>
-        <navigation.Screen name='SpreadSheetScreen' component={SpreadSheetScreen}></navigation.Screen>
       </navigation.Navigator>
     </NavigationContainer>
-    
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -124,6 +108,5 @@ const styles = StyleSheet.create({
 
   styledText: {
     color: "#FFF",
-    
   }
 });

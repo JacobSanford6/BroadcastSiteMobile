@@ -25,13 +25,11 @@ const BroadcastScreen= ({ navigation }) =>{
                 setImage(res);
             }
         })
-        
     }
 
 
     const sendImageBroadcastAsync = async () =>{
         if (broadImage){
-
             const formData = new FormData();
 
             const photo = {
@@ -60,7 +58,6 @@ const BroadcastScreen= ({ navigation }) =>{
 
     const sendMessageBroadcastAsync= async () =>{
         if (broadText.trim() != "" && broadText.trim().length <= 30){
-
             await fetch("http://167.248.46.73:5000", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -72,7 +69,6 @@ const BroadcastScreen= ({ navigation }) =>{
             .catch(err=>{
                 console.log(err);
             })
-        
         }else if (broadText.trim().length > 30){
             alert("Please keep broadcast below or equal to 30 characters");
             
@@ -84,41 +80,39 @@ const BroadcastScreen= ({ navigation }) =>{
     
     return(
         <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.fitIn} justifyContent="center" scrollEnabled={false}>
-            
-            <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
-            <TextInput placeholder="Broadcast Message" placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
-            <Pressable onPress={sendMessageBroadcastAsync}>
-                <Text style={styles.button}>Send Broadcast</Text>
-            </Pressable>
-            
-            {
-            broadImage ? 
-            
-            <View>
-                <Text style={styles.imageText}>
-                    { broadImage ? broadImage.assets[0].uri.split("/")[broadImage.assets[0].uri.split("/").length-1] : null }
-                </Text>
+            <ScrollView style={styles.fitIn} justifyContent="center" scrollEnabled={false}>
                 
-                <Pressable onPress={() => setImage(null)} style={styles.closeHolder}> 
-                    <Ionicons name="close-circle-outline" color={"red"} size={20}></Ionicons>
+                <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
+                <TextInput placeholder="Broadcast Message" placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
+                <Pressable onPress={sendMessageBroadcastAsync}>
+                    <Text style={styles.button}>Send Broadcast</Text>
                 </Pressable>
                 
+                {
+                broadImage ? 
                 
-            </View>:null
-            }
-            
-            <Pressable onPress={pickImage}>
-                <Text style={styles.button} >Upload Image</Text>
-            </Pressable>
-            
-            <Pressable onPress={sendImageBroadcastAsync}>
-                <Text style={styles.button} >Send Image</Text>
-            </Pressable>
+                <View>
+                    <Text style={styles.imageText}>
+                        { broadImage ? broadImage.assets[0].uri.split("/")[broadImage.assets[0].uri.split("/").length-1] : null }
+                    </Text>
+                    
+                    <Pressable onPress={() => setImage(null)} style={styles.closeHolder}> 
+                        <Ionicons name="close-circle-outline" color={"red"} size={20}></Ionicons>
+                    </Pressable>
+                    
+                    
+                </View>:null
+                }
+                
+                <Pressable onPress={pickImage}>
+                    <Text style={styles.button} >Upload Image</Text>
+                </Pressable>
+                
+                <Pressable onPress={sendImageBroadcastAsync}>
+                    <Text style={styles.button} >Send Image</Text>
+                </Pressable>
 
-            
-
-        </ScrollView>
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -191,7 +185,6 @@ const styles = StyleSheet.create({
         flex:4
     },
 
-    
     closeHolder:{
         alignSelf: "center"
     }
