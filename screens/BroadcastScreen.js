@@ -28,9 +28,6 @@ const BroadcastScreen= ({ navigation }) =>{
         
     }
 
-    const moveToSpreadsheetScreen = () =>{
-        navigation.navigate("SpreadSheetScreen")
-    }
 
     const sendImageBroadcastAsync = async () =>{
         if (broadImage){
@@ -119,9 +116,7 @@ const BroadcastScreen= ({ navigation }) =>{
                 <Text style={styles.button} >Send Image</Text>
             </Pressable>
 
-            <Pressable onPress={moveToSpreadsheetScreen}>
-                <Text style={styles.button} >Open Schedule</Text>
-            </Pressable>
+            
 
         </ScrollView>
         </SafeAreaView>
