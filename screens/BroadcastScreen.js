@@ -83,7 +83,7 @@ const BroadcastScreen= ({ navigation }) =>{
             <ScrollView style={styles.fitIn} justifyContent="center" scrollEnabled={false}>
                 
                 <Text style={styles.styledText}>Enter Your Broadcast message here!</Text>
-                <TextInput placeholder="Broadcast Message" placeholderTextColor="#ff8c00b4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
+                <TextInput placeholder="Broadcast Message" placeholderTextColor="#FEFAD4" onChangeText={nt=>setBroadText(nt)} style={styles.signInInput}></TextInput>
                 <Pressable onPress={sendMessageBroadcastAsync}>
                     <Text style={styles.button}>Send Broadcast</Text>
                 </Pressable>
@@ -122,9 +122,9 @@ const sWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#444444",
+        backgroundColor: "#FEFAD4",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
 
     fitIn: {
@@ -140,15 +140,16 @@ const styles = StyleSheet.create({
     },
 
     signInInput: {
-        borderWidth: 1,
+        borderWidth: 3,
         fontSize: 25,
         margin: 15,
         width: "75%",
         alignSelf: "center",
-        borderColor: "white",
-        color: "darkorange",
+        borderColor: "black",
+        color: "#FEFAD4",
         paddingRight: 15,
         paddingLeft: 15,
+        backgroundColor: "#8FB9A8"
 
     },
 
@@ -161,19 +162,20 @@ const styles = StyleSheet.create({
     },
 
     styledText: {
-        color: "#FFF",
+        color: "#F1828D",
         alignSelf: "center",
+        fontSize: 20
     },
 
     button: {
         fontSize: 25,
-        backgroundColor: "#FFFFFF33",
+        backgroundColor: "#F1828D",
         width:sWidth*.75,
         alignSelf:"center",
         textAlign:"center",
-        borderColor:"white",
-        color:"darkorange",
-        borderWidth:1,
+        borderColor:"black",
+        color:"#FEFAD4",
+        borderWidth:3,
         margin: 10,
         padding: 2,
     },

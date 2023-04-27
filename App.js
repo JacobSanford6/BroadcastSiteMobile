@@ -37,9 +37,10 @@ const Login = ({ navigation }) => {
   return(
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.fitIn} justifyContent='center' scrollEnabled={false}>
-      <TextInput placeholder='Username/Email' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>setUser(newText)}></TextInput>
-        <TextInput placeholder='Password' placeholderTextColor="#ff8c00b4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>setPass(newText)}></TextInput>
-        <MaterialIcon name='login' style={styles.loginLabel} color={"green"} onPress={() => {loginRequest(); }}  ></MaterialIcon>
+      <Text style={{alignSelf:'center', fontSize:35, color:"#F1828D", fontWeight:'bold'}}>Login</Text>
+      <TextInput placeholder='Username/Email' placeholderTextColor="#FEFAD4"  secureTextEntry={true} style={styles.signInInput} id="user" onChangeText={newText=>setUser(newText)}></TextInput>
+        <TextInput placeholder='Password' placeholderTextColor="#FEFAD4"  secureTextEntry={true} style={styles.signInInput} id="pass" onChangeText={newText=>setPass(newText)}></TextInput>
+        <MaterialIcon name='login' style={styles.loginLabel} color={"#8FB9A8"} onPress={() => {loginRequest(); }}  ></MaterialIcon>
       </ScrollView>
     </SafeAreaView>
   )
@@ -59,7 +60,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#444444',
+    backgroundColor: '#FEFAD4',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -76,19 +77,19 @@ const styles = StyleSheet.create({
     opacity:0,
   },
 
-  signInInput: {
-    borderWidth: 1,
-    fontSize: 25,
-    margin: 15,
-    width: "75%",
-    alignSelf: 'center',
-    
-    borderColor: "white",
-    color: "darkorange",
-    paddingRight: 15,
-    paddingLeft: 15,
-
-  },
+ signInInput:{
+  borderWidth: 1,
+        fontSize: 25,
+        margin: 15,
+        width: "75%",
+        alignSelf: "center",
+        borderWidth: 3,
+        borderColor: "black",
+        color: "#FEFAD4",
+        paddingRight: 15,
+        paddingLeft: 15,
+        backgroundColor: "#8FB9A8"
+ },
 
   loginLabel: {
     fontSize: 50,
