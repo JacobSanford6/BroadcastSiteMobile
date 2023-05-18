@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button, TextInput, ScrollView, Dimensions, Pressable } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/Entypo'
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,26 +5,21 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {React, useState} from 'react';
 import BroadcastScreen from './screens/BroadcastScreen';
 
-console.log(BroadcastScreen)
-
 const win = Dimensions.get('window')
 
 const navigation = createNativeStackNavigator();
 
-  let pw = require("./password.json")
+let pw = require("./password.json")
 
 const Login = ({ navigation }) => {
   let [user, setUser] = useState("");
   let [pass, setPass] = useState("")
 
+  // Checks if entered username and password match the one on file
+  // If they match, go to the broadcast screen
   const loginRequest= () => {
-    console.log("attempted with username: " + user + " and password " + pass)
     if (user = pw.user && pass == pw.pass){
-      console.log("success");
-      
-
       navigation.navigate('BroadcastScreen')
-      
       
       navigation.reset({
         index: 0,
@@ -58,56 +52,53 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FEFAD4',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+    container: {
+      flex: 1,
+      backgroundColor: '#FEFAD4',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
 
-  fitIn: {
-    height: '100%',
-    width: '100%',
-    padding: 0,
-    margin: 0,
+    invisible: {
+      opacity:0,
+    },
+
+    loginLabel: {
+      fontSize: 50,
+      width: 60,
+      alignSelf: 'center',
+      textAlign: 'center',
+    },
+
+    fitIn: {
+      height: '100%',
+      width: '100%',
+      padding: 0,
+      margin: 0,
+    },
+
+    playImage: {
+      width:win.width*.75,
+      height:win.width*.75,
+      alignSelf:'center',
+      justifySelf:'center',
+    },
     
-  },
+    signInInput:{
+      borderWidth: 1,
+      fontSize: 25,
+      margin: 15,
+      width: "75%",
+      alignSelf: "center",
+      borderWidth: 3,
+      borderColor: "black",
+      color: "#FEFAD4",
+      paddingRight: 15,
+      paddingLeft: 15,
+      backgroundColor: "#8FB9A8"
+    },
 
-  invisible: {
-    opacity:0,
-  },
-
- signInInput:{
-  borderWidth: 1,
-        fontSize: 25,
-        margin: 15,
-        width: "75%",
-        alignSelf: "center",
-        borderWidth: 3,
-        borderColor: "black",
-        color: "#FEFAD4",
-        paddingRight: 15,
-        paddingLeft: 15,
-        backgroundColor: "#8FB9A8"
- },
-
-  loginLabel: {
-    fontSize: 50,
-    width: 60,
-    alignSelf: 'center',
-    textAlign: 'center',
-    
-  },
-
-  playImage: {
-    width:win.width*.75,
-    height:win.width*.75,
-    alignSelf:'center',
-    justifySelf:'center',
-
-  },
-
-  styledText: {
-    color: "#FFF",
-  }
+    styledText: {
+      color: "#FFF",
+    }
 });
