@@ -1,5 +1,3 @@
-//TODO: Consider adding a screen to view schedules
-
 import { ScrollView, Platform, OpacityPressable, TextInput, StyleSheet, Text, View, SafeAreaView, Image, Dimensions, Pressable, Alert } from "react-native";
 import {React, useState} from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
